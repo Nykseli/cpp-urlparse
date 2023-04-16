@@ -89,6 +89,20 @@ template<int N, int M>
 constexpr char tygrab(char const(&c)[M]) noexcept
 { return c[N < M ? N : M-1]; }
 
+#if __cplusplus >= 202002L
+#include <string_view>
+
+template <int N>
+consteval char tygrab(const std::string_view str) noexcept
+{
+    // null marks the end of typestring
+    if (N >= str.size())
+        return '\0';
+
+    return str[N];
+}
+#endif
+
 //*~ part2: Function template type signatures for type deduction purposes. In
 //          other words, exploiting the functorial nature of parameter packs
 //          while mixing them with an obvious catamorphism through pattern
